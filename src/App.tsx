@@ -620,56 +620,81 @@ const DownloadButton: React.FC = () => {
       const downloadBtn = document.getElementById("download-section");
       if (downloadBtn) downloadBtn.style.display = "none";
 
-      // PDF 생성 시작
+      // 간단한 방법 - 직접 HTML을 캡처하여 단일 PDF로 변환
+      const cvContent = document.getElementById("cv-content");
+      if (!cvContent) return;
+
+      // 현재 스타일 정보 저장
+      const originalStyles = {
+        width: cvContent.style.width,
+        maxWidth: cvContent.style.maxWidth,
+        height: document.body.style.height,
+        overflow: document.body.style.overflow,
+      };
+
+      // 보이는 부분만 캡처하도록 body 스타일 조정
+      document.body.style.overflow = "visible";
+      document.body.style.height = "auto";
+
+      // 전체 내용을 한 번에 캡처하기 좋게 너비 조정
+      cvContent.style.width = "1000px";
+      cvContent.style.maxWidth = "1000px";
+
+      // 렌더링 안정화 대기
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // PDF 생성
+      const canvas = await html2canvas(cvContent, {
+        scale: 1.5,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+
+      // 이미지 데이터로 변환
+      const imgData = canvas.toDataURL("image/png", 1.0);
+
+      // 적절한 PDF 크기 계산
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
       });
 
-      // 섹션별로 PDF 페이지 추가
-      const sections = contentElement.querySelectorAll(
-        "section, header, footer"
-      );
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i] as HTMLElement;
+      // 이미지 너비를 PDF 너비에 맞추고 비율 유지
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // 첫 페이지가 아니면 새 페이지 추가
-        if (i > 0) {
-          pdf.addPage();
-        }
+      // PDF에 추가
+      let heightLeft = imgHeight;
+      let position = 0;
+      let page = 1;
 
-        // 현재 섹션을 캔버스로 변환
-        const canvas = await html2canvas(section, {
-          scale: 1.5,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: null, // 투명 배경
-          logging: false,
-        });
+      // 첫 페이지
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
 
-        // 캔버스를 이미지로 변환
-        const imgData = canvas.toDataURL("image/png");
-
-        // PDF 페이지 크기
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-
-        // 이미지 크기 계산 (페이지 너비에 맞춤)
-        const imgWidth = pageWidth - 10; // 여백 5mm씩
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        // 이미지를 페이지 중앙에 배치
-        const x = 5; // 왼쪽 여백 5mm
-        const y = 5; // 상단 여백 5mm
-
-        // 이미지 삽입
-        pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+      // 필요한 만큼 추가 페이지 생성
+      while (heightLeft > 0) {
+        position = -pdfHeight * page;
+        page++;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
       }
 
-      // PDF 저장
+      // PDF 다운로드
       pdf.save("KimMintae_CV.pdf");
+
+      // 원래 스타일 복원
+      cvContent.style.width = originalStyles.width;
+      cvContent.style.maxWidth = originalStyles.maxWidth;
+      document.body.style.height = originalStyles.height;
+      document.body.style.overflow = originalStyles.overflow;
     } catch (error) {
       console.error("PDF 생성 중 오류 발생:", error);
       alert(
