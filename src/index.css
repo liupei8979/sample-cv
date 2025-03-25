@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Force dark mode styles with !important */
+html.dark {
+  background-color: #111827 !important;
+  color: white !important;
+}
+
+html.dark body {
+  background-color: #111827 !important;
+  color: white !important;
+}
+
+html.dark #root {
+  background-color: #111827 !important;
+}
+
+html.dark .bg-white {
+  background-color: #1f2937 !important;
+}
+
+html.dark .text-gray-700,
+html.dark .text-gray-800 {
+  color: #e5e7eb !important;
+}
+
 /* 글로벌 커스텀 설정 */
 :root {
   --primary-color: #4f46e5;

@@ -7,10 +7,9 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import React, { useEffect, useState } from "react";
 
 import { Bar } from "react-chartjs-2";
-import React from "react";
-import { animate } from "framer-motion";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { motion } from "framer-motion";
@@ -46,54 +45,106 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-// Framer Motion의 animate 함수를 사용한 스크롤 핸들러
-const handleNavClick = (
-  e: React.MouseEvent<HTMLAnchorElement>,
-  targetId: string
-) => {
-  e.preventDefault();
-
-  // setTimeout을 추가하여 이벤트 루프의 다음 틱에서 실행
-  setTimeout(() => {
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      // 네비게이션 높이(예: 80px)를 감안하여 스크롤 위치 계산
-      const navHeight = 80;
-      const targetPosition =
-        targetElement.getBoundingClientRect().top + window.scrollY - navHeight;
-
-      animate(window.scrollY, targetPosition, {
-        duration: 1,
-        ease: [0.32, 0.72, 0, 1], // easeOutCubic
-        onUpdate: (value) => window.scrollTo(0, value),
-      });
-    }
-  }, 10);
-};
-
 // Navbar 컴포넌트 업데이트
-const Navbar: React.FC = () => (
-  <nav className="fixed top-0 left-0 right-0 z-50">
-    <div className="max-w-[1400px] mx-auto px-8 py-5 flex justify-between items-center bg-white/90 backdrop-blur-xl shadow-lg rounded-b-2xl">
-      <div className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-        KM
-      </div>
-      <div className="space-x-8">
-        {["about", "skills", "experience", "awards"].map((section) => (
-          <a
-            key={section}
-            href={`#${section}`}
-            onClick={(e) => handleNavClick(e, section)}
-            className="text-gray-700 hover:text-indigo-600 transition font-medium relative group"
+const Navbar: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({
+  isDarkMode,
+  toggleTheme,
+}) => {
+  // Add this for debugging
+  useEffect(() => {
+    console.log("Current theme mode:", isDarkMode ? "DARK" : "LIGHT");
+  }, [isDarkMode]);
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50">
+      <div
+        className="max-w-[1400px] mx-auto px-8 py-5 flex justify-between items-center backdrop-blur-xl shadow-lg rounded-b-2xl transition-colors duration-300"
+        style={{
+          backgroundColor: isDarkMode
+            ? "rgba(17, 24, 39, 0.9)"
+            : "rgba(255, 255, 255, 0.9)",
+        }}
+      >
+        <div className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+          KM
+        </div>
+        <div className="flex items-center space-x-8">
+          {["about", "skills", "experience", "awards"].map((section) => (
+            <a
+              key={section}
+              href={`#${section}`}
+              style={{ color: isDarkMode ? "#d1d5db" : "#374151" }}
+              className="hover:text-indigo-600 transition font-medium relative group"
+            >
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          ))}
+
+          {/* 현대적인 토글 버튼 - 하이라이트와 테두리 제거 */}
+          <button
+            onClick={toggleTheme}
+            className="relative inline-flex items-center h-7 rounded-full w-14 transition-colors duration-300 select-none outline-none focus:outline-none"
+            style={{
+              backgroundColor: isDarkMode
+                ? "rgba(79, 70, 229, 0.8)"
+                : "rgba(209, 213, 219, 0.8)",
+              WebkitTapHighlightColor: "transparent",
+              userSelect: "none",
+              outline: "none",
+              boxShadow: "none",
+              border: "none",
+            }}
+            onFocus={(e) => e.target.blur()} // 클릭 시 즉시 포커스 해제
+            aria-label="Toggle dark mode"
           >
-            {section.charAt(0).toUpperCase() + section.slice(1)}
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-        ))}
+            <span className="sr-only">Toggle dark mode</span>
+            <span
+              className="pointer-events-none absolute left-0 inline-flex items-center justify-center h-7 w-7 rounded-full shadow transform transition-transform duration-300 ease-in-out"
+              style={{
+                transform: isDarkMode ? "translateX(100%)" : "translateX(0)",
+                backgroundColor: isDarkMode ? "#111827" : "white",
+              }}
+            >
+              {/* 아이콘 */}
+              {isDarkMode ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-yellow-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-yellow-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+              )}
+            </span>
+          </button>
+        </div>
       </div>
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
 
 // 헤더 컴포넌트 업데이트
 const Header: React.FC = () => {
@@ -183,11 +234,14 @@ const Header: React.FC = () => {
 };
 
 // About 섹션 업데이트
-const About: React.FC = () => {
+const About: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode }) => {
   return (
     <motion.section
       id="about"
-      className="py-24 px-8 max-w-[1400px] mx-auto"
+      className="py-24 px-8 max-w-[1400px] mx-auto transition-colors duration-300"
+      style={{
+        color: isDarkMode ? "white" : "inherit",
+      }}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
@@ -203,7 +257,10 @@ const About: React.FC = () => {
           variants={fadeInUp}
           transition={{ delay: 0.2 }}
         >
-          <p className="text-gray-700 text-xl leading-relaxed">
+          <p
+            className="text-xl leading-relaxed"
+            style={{ color: isDarkMode ? "#d1d5db" : "#4b5563" }}
+          >
             I am committed to growing as a front-end developer who maximizes
             user experience. To create exceptional products, I immerse myself in
             understanding user perspectives, carefully exploring the best
@@ -214,23 +271,47 @@ const About: React.FC = () => {
           </p>
         </motion.div>
         <motion.div
-          className="md:w-1/2 bg-gradient-to-br from-indigo-50 to-purple-50 p-8 rounded-2xl shadow-xl"
+          className="md:w-1/2 p-8 rounded-2xl shadow-xl"
+          style={{
+            background: isDarkMode
+              ? "linear-gradient(to bottom right, rgba(67, 56, 202, 0.3), rgba(126, 34, 206, 0.3))"
+              : "linear-gradient(to bottom right, rgba(238, 242, 255, 1), rgba(245, 243, 255, 1))",
+          }}
           variants={fadeInUp}
           transition={{ delay: 0.4 }}
         >
-          <h3 className="text-2xl font-semibold mb-4 text-indigo-700">
+          <h3
+            className="text-2xl font-semibold mb-4"
+            style={{ color: isDarkMode ? "#a5b4fc" : "#4338ca" }}
+          >
             Languages
           </h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="font-medium text-gray-800">Korean</span>
-              <div className="w-2/3 bg-gray-200 rounded-full h-2">
+              <span
+                className="font-medium"
+                style={{ color: isDarkMode ? "#e5e7eb" : "#1f2937" }}
+              >
+                Korean
+              </span>
+              <div
+                className="w-2/3 rounded-full h-2"
+                style={{ backgroundColor: isDarkMode ? "#374151" : "#e5e7eb" }}
+              >
                 <div className="bg-indigo-600 h-2 rounded-full w-full"></div>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <span className="font-medium text-gray-800">Japanese</span>
-              <div className="w-2/3 bg-gray-200 rounded-full h-2">
+              <span
+                className="font-medium"
+                style={{ color: isDarkMode ? "#e5e7eb" : "#1f2937" }}
+              >
+                Japanese
+              </span>
+              <div
+                className="w-2/3 rounded-full h-2"
+                style={{ backgroundColor: isDarkMode ? "#374151" : "#e5e7eb" }}
+              >
                 <div className="bg-indigo-600 h-2 rounded-full w-4/5"></div>
               </div>
             </div>
@@ -242,7 +323,7 @@ const About: React.FC = () => {
 };
 
 // Skills 섹션 업데이트
-const Skills: React.FC = () => {
+const Skills: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode }) => {
   // 첫 번째 줄과 두 번째 줄로 스킬을 분리
   const firstLineSkills = [
     "React",
@@ -256,7 +337,14 @@ const Skills: React.FC = () => {
   return (
     <motion.section
       id="skills"
-      className="py-24 px-8 bg-gradient-to-br from-gray-50 to-indigo-50 max-w-[1400px] mx-auto rounded-3xl shadow-2xl"
+      className="py-24 px-8 rounded-3xl shadow-2xl"
+      style={{
+        background: isDarkMode
+          ? "linear-gradient(to bottom right, #111827, #1E3A8A)"
+          : "linear-gradient(to bottom right, #F9FAFB, #EEF2FF)",
+        maxWidth: "1400px",
+        margin: "0 auto",
+      }}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
@@ -278,11 +366,16 @@ const Skills: React.FC = () => {
           {firstLineSkills.map((skill, index) => (
             <motion.div
               key={skill}
-              className="bg-white px-8 py-4 rounded-xl shadow-lg text-xl font-medium text-gray-800 cursor-pointer hover:scale-105 transform transition border border-indigo-100"
+              style={{
+                backgroundColor: isDarkMode ? "#1f2937" : "white",
+                color: isDarkMode ? "#e5e7eb" : "#1f2937",
+                borderColor: isDarkMode ? "#4338ca" : "#e0e7ff",
+              }}
+              className="px-8 py-4 rounded-xl shadow-lg text-xl font-medium cursor-pointer hover:scale-105 transform transition border"
               variants={itemVariants}
               transition={{ duration: 0.5, delay: index * 0.07 }}
               whileHover={{
-                backgroundColor: "#EEF2FF",
+                backgroundColor: isDarkMode ? "#374151" : "#EEF2FF",
                 boxShadow: "0 10px 25px -5px rgba(99, 102, 241, 0.2)",
               }}
             >
@@ -302,11 +395,16 @@ const Skills: React.FC = () => {
           {secondLineSkills.map((skill, index) => (
             <motion.div
               key={skill}
-              className="bg-white px-8 py-4 rounded-xl shadow-lg text-xl font-medium text-gray-800 cursor-pointer hover:scale-105 transform transition border border-indigo-100"
+              style={{
+                backgroundColor: isDarkMode ? "#1f2937" : "white",
+                color: isDarkMode ? "#e5e7eb" : "#1f2937",
+                borderColor: isDarkMode ? "#4338ca" : "#e0e7ff",
+              }}
+              className="px-8 py-4 rounded-xl shadow-lg text-xl font-medium cursor-pointer hover:scale-105 transform transition border"
               variants={itemVariants}
-              transition={{ duration: 0.5, delay: index * 0.07 + 0.35 }} // 약간의 추가 지연
+              transition={{ duration: 0.5, delay: index * 0.07 + 0.35 }}
               whileHover={{
-                backgroundColor: "#EEF2FF",
+                backgroundColor: isDarkMode ? "#374151" : "#EEF2FF",
                 boxShadow: "0 10px 25px -5px rgba(99, 102, 241, 0.2)",
               }}
             >
@@ -315,12 +413,12 @@ const Skills: React.FC = () => {
           ))}
         </motion.div>
       </div>
-      <SkillsChart />
+      <SkillsChart isDarkMode={isDarkMode} />
     </motion.section>
   );
 };
 
-const SkillsChart: React.FC = () => {
+const SkillsChart: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode }) => {
   const data = {
     labels: [
       "React",
@@ -336,16 +434,27 @@ const SkillsChart: React.FC = () => {
       {
         label: "Proficiency",
         data: [90, 80, 95, 85, 75, 70, 65, 60],
-        backgroundColor: [
-          "rgba(99, 102, 241, 0.8)", // indigo
-          "rgba(139, 92, 246, 0.8)", // purple
-          "rgba(168, 85, 247, 0.8)", // fuchsia
-          "rgba(217, 70, 239, 0.8)", // pink
-          "rgba(99, 102, 241, 0.8)", // indigo
-          "rgba(139, 92, 246, 0.8)", // purple
-          "rgba(168, 85, 247, 0.8)", // fuchsia
-          "rgba(217, 70, 239, 0.8)", // pink
-        ],
+        backgroundColor: isDarkMode
+          ? [
+              "rgba(129, 140, 248, 0.8)", // brighter indigo for dark mode
+              "rgba(167, 139, 250, 0.8)", // brighter purple
+              "rgba(192, 132, 252, 0.8)", // brighter fuchsia
+              "rgba(232, 121, 249, 0.8)", // brighter pink
+              "rgba(129, 140, 248, 0.8)",
+              "rgba(167, 139, 250, 0.8)",
+              "rgba(192, 132, 252, 0.8)",
+              "rgba(232, 121, 249, 0.8)",
+            ]
+          : [
+              "rgba(99, 102, 241, 0.8)", // original indigo
+              "rgba(139, 92, 246, 0.8)", // original purple
+              "rgba(168, 85, 247, 0.8)", // original fuchsia
+              "rgba(217, 70, 239, 0.8)", // original pink
+              "rgba(99, 102, 241, 0.8)",
+              "rgba(139, 92, 246, 0.8)",
+              "rgba(168, 85, 247, 0.8)",
+              "rgba(217, 70, 239, 0.8)",
+            ],
         borderColor: [
           "rgba(99, 102, 241, 1)",
           "rgba(139, 92, 246, 1)",
@@ -384,6 +493,7 @@ const SkillsChart: React.FC = () => {
             size: 14,
             weight: 500,
           },
+          color: isDarkMode ? "#FFFFFF" : undefined,
           padding: 20,
           usePointStyle: true,
           pointStyle: "circle",
@@ -418,7 +528,7 @@ const SkillsChart: React.FC = () => {
         beginAtZero: true,
         max: 100,
         grid: {
-          color: "rgba(243, 244, 246, 1)",
+          color: isDarkMode ? "rgba(75, 85, 99, 1)" : "rgba(243, 244, 246, 1)",
           drawBorder: false,
         },
         ticks: {
@@ -426,6 +536,7 @@ const SkillsChart: React.FC = () => {
             family: "'Inter', sans-serif",
             size: 12,
           },
+          color: isDarkMode ? "rgba(209, 213, 219, 1)" : undefined,
           padding: 10,
           callback: function (tickValue: number | string) {
             return tickValue + "%";
@@ -442,6 +553,7 @@ const SkillsChart: React.FC = () => {
             family: "'Inter', sans-serif",
             size: 12,
           },
+          color: isDarkMode ? "rgba(209, 213, 219, 1)" : undefined,
           padding: 10,
         },
       },
@@ -462,7 +574,10 @@ const SkillsChart: React.FC = () => {
 
   return (
     <motion.div
-      className="bg-white rounded-xl shadow-2xl p-6 overflow-hidden"
+      style={{
+        backgroundColor: isDarkMode ? "#1f2937" : "white",
+      }}
+      className="rounded-xl shadow-2xl p-6 overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.3 }}
@@ -481,7 +596,11 @@ interface ExperienceProps {
   description: string;
 }
 
-const ExperienceItem: React.FC<ExperienceProps> = ({ year, description }) => {
+const ExperienceItem: React.FC<ExperienceProps & { isDarkMode?: boolean }> = ({
+  year,
+  description,
+  isDarkMode,
+}) => {
   return (
     <motion.div
       className="relative pl-10 mb-10"
@@ -489,15 +608,30 @@ const ExperienceItem: React.FC<ExperienceProps> = ({ year, description }) => {
       transition={{ duration: 0.6 }}
     >
       <div className="absolute left-0 top-0 w-6 h-6 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
-      <div className="border-l-4 border-indigo-200 pl-6 py-2">
-        <p className="text-xl font-semibold text-indigo-700">{year}</p>
-        <p className="mt-2 text-2xl text-gray-800">{description}</p>
+      <div
+        className="border-l-4 pl-6 py-2"
+        style={{
+          borderLeftColor: isDarkMode ? "#4338ca" : "#c7d2fe",
+        }}
+      >
+        <p
+          className="text-xl font-semibold"
+          style={{ color: isDarkMode ? "#818cf8" : "#4338ca" }}
+        >
+          {year}
+        </p>
+        <p
+          className="mt-2 text-2xl"
+          style={{ color: isDarkMode ? "#e5e7eb" : "#1f2937" }}
+        >
+          {description}
+        </p>
       </div>
     </motion.div>
   );
 };
 
-const Leadership: React.FC = () => {
+const Leadership: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode }) => {
   const experiences = [
     { year: "2025", description: "'Bigglz' Web Frontend Developer" },
     { year: "2024", description: "'9oormthonUNIV' Web Development Team" },
@@ -514,6 +648,9 @@ const Leadership: React.FC = () => {
     <motion.section
       id="experience"
       className="py-24 px-8 max-w-[1400px] mx-auto"
+      style={{
+        color: isDarkMode ? "white" : "inherit",
+      }}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
@@ -535,6 +672,7 @@ const Leadership: React.FC = () => {
             key={index}
             year={exp.year}
             description={exp.description}
+            isDarkMode={isDarkMode}
           />
         ))}
       </motion.div>
@@ -543,7 +681,7 @@ const Leadership: React.FC = () => {
 };
 
 // Awards 섹션 업데이트
-const Awards: React.FC = () => {
+const Awards: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode }) => {
   const awards = [
     { year: "2024", description: "Kakao x goorm Hackathon 1st Prize" },
     { year: "2024", description: "Eth Seoul - Astar Foundation: 2nd Prize" },
@@ -555,7 +693,14 @@ const Awards: React.FC = () => {
   return (
     <motion.section
       id="awards"
-      className="py-24 px-8 bg-gradient-to-br from-gray-50 to-purple-50 max-w-[1400px] mx-auto rounded-3xl shadow-2xl"
+      className="py-24 px-8 rounded-3xl shadow-2xl"
+      style={{
+        background: isDarkMode
+          ? "linear-gradient(to bottom right, #111827, #312E81)"
+          : "linear-gradient(to bottom right, #F9FAFB, #F5F3FF)",
+        maxWidth: "1400px",
+        margin: "0 auto",
+      }}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
@@ -575,14 +720,23 @@ const Awards: React.FC = () => {
         {awards.map((award, index) => (
           <motion.div
             key={index}
-            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition"
+            style={{
+              backgroundColor: isDarkMode ? "#1f2937" : "white",
+            }}
+            className="p-6 rounded-xl shadow-lg hover:shadow-xl transition"
             variants={itemVariants}
             whileHover={{ y: -5, transition: { duration: 0.2 } }}
           >
-            <div className="text-lg font-semibold text-indigo-600 mb-2">
+            <div
+              className="text-lg font-semibold mb-2"
+              style={{ color: isDarkMode ? "#a5b4fc" : "#4f46e5" }}
+            >
               {award.year}
             </div>
-            <div className="text-xl font-bold text-gray-800">
+            <div
+              className="text-xl font-bold"
+              style={{ color: isDarkMode ? "#e5e7eb" : "#1f2937" }}
+            >
               {award.description}
             </div>
           </motion.div>
@@ -601,26 +755,47 @@ const Awards: React.FC = () => {
   );
 };
 
-// 푸터 업데이트
-const Footer: React.FC = () => {
+// 푸터 컴포넌트 수정 - isDarkMode 활용
+const Footer: React.FC<{ isDarkMode?: boolean }> = ({ isDarkMode }) => {
   return (
-    <footer className="bg-gradient-to-r from-gray-900 to-indigo-900 text-white py-12 text-center">
+    <footer
+      className={`${
+        isDarkMode
+          ? "bg-gradient-to-r from-gray-900 to-indigo-900"
+          : "bg-gradient-to-r from-gray-700 to-indigo-700"
+      } text-white py-12 text-center transition-colors duration-300`}
+    >
       <div className="max-w-4xl mx-auto px-8">
         <div className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-300">
           KM
         </div>
         <div className="flex justify-center space-x-6 mb-8">
-          <a href="#" className="text-gray-300 hover:text-white transition">
+          <a
+            href="#"
+            className={`${
+              isDarkMode ? "text-gray-300" : "text-gray-200"
+            } hover:text-white transition`}
+          >
             GitHub
           </a>
-          <a href="#" className="text-gray-300 hover:text-white transition">
+          <a
+            href="#"
+            className={`${
+              isDarkMode ? "text-gray-300" : "text-gray-200"
+            } hover:text-white transition`}
+          >
             LinkedIn
           </a>
-          <a href="#" className="text-gray-300 hover:text-white transition">
+          <a
+            href="#"
+            className={`${
+              isDarkMode ? "text-gray-300" : "text-gray-200"
+            } hover:text-white transition`}
+          >
             Email
           </a>
         </div>
-        <div className="text-gray-400">
+        <div className={`${isDarkMode ? "text-gray-400" : "text-gray-300"}`}>
           © {new Date().getFullYear()} KIM MINTAE. All rights reserved.
         </div>
       </div>
@@ -628,16 +803,17 @@ const Footer: React.FC = () => {
   );
 };
 
-// 다운로드 버튼 컴포넌트 개선
-const DownloadButton: React.FC = () => {
+// 다운로드 버튼 컴포넌트 개선 - isDarkMode 활용
+const DownloadButton: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   const handleDownload = async () => {
     const contentElement = document.getElementById("cv-content");
     if (!contentElement) return;
 
-    // 로딩 상태 표시
+    // 로딩 상태 표시 - 다크모드에 따라 스타일 변경
     const loadingToast = document.createElement("div");
-    loadingToast.className =
-      "fixed top-4 right-4 bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-pulse";
+    loadingToast.className = `fixed top-4 right-4 ${
+      isDarkMode ? "bg-indigo-700" : "bg-indigo-600"
+    } text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-pulse`;
     loadingToast.textContent = "Generating PDF...";
     document.body.appendChild(loadingToast);
 
@@ -649,6 +825,15 @@ const DownloadButton: React.FC = () => {
       // 간단한 방법 - 직접 HTML을 캡처하여 단일 PDF로 변환
       const cvContent = document.getElementById("cv-content");
       if (!cvContent) return;
+
+      // 현재 테마 상태 저장
+      const htmlElement = document.documentElement;
+      const wasInDarkMode = htmlElement.classList.contains("dark");
+
+      // PDF를 위해 임시로 라이트 모드로 전환 (PDF 내용을 더 잘 보이게 하기 위해)
+      if (wasInDarkMode) {
+        htmlElement.classList.remove("dark");
+      }
 
       // 현재 스타일 정보 저장
       const originalStyles = {
@@ -721,6 +906,11 @@ const DownloadButton: React.FC = () => {
       cvContent.style.maxWidth = originalStyles.maxWidth;
       document.body.style.height = originalStyles.height;
       document.body.style.overflow = originalStyles.overflow;
+
+      // 원래 테마 상태로 복원
+      if (wasInDarkMode) {
+        htmlElement.classList.add("dark");
+      }
     } catch (error) {
       console.error("PDF 생성 중 오류 발생:", error);
       alert(
@@ -747,7 +937,11 @@ const DownloadButton: React.FC = () => {
     >
       <button
         onClick={handleDownload}
-        className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 flex items-center space-x-2"
+        className={`${
+          isDarkMode
+            ? "bg-gradient-to-r from-indigo-600 to-purple-600"
+            : "bg-gradient-to-r from-indigo-500 to-purple-500"
+        } text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 flex items-center space-x-2`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -771,28 +965,62 @@ const DownloadButton: React.FC = () => {
 
 // 메인 App 컴포넌트 업데이트
 const App: React.FC = () => {
-  // 스크롤 복원 비활성화
-  React.useEffect(() => {
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
-    }
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-    // 페이지 로드 시 맨 위로 스크롤
-    window.scrollTo(0, 0);
+  // Initialize theme
+  useEffect(() => {
+    // 로컬 스토리지에서 테마 설정 가져오기
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    // 사용자가 저장한 테마가 있으면 그것을 사용하고, 없으면 기본 시스템 설정 사용
+    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
+    setIsDarkMode(initialTheme === "dark");
+
+    // HTML 요소에 적용
+    if (initialTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   }, []);
 
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+
+    if (newMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
+      console.log("Switched to DARK mode");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
+      console.log("Switched to LIGHT mode");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white scroll-smooth">
-      <div id="cv-content">
-        <Navbar />
+    <div
+      style={{
+        backgroundColor: isDarkMode ? "#111827" : "white",
+        color: isDarkMode ? "white" : "#1f2937",
+        transition: "background-color 0.3s, color 0.3s",
+      }}
+    >
+      <div className="min-h-screen scroll-smooth" id="cv-content">
+        <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         <Header />
-        <About />
-        <Skills />
-        <Leadership />
-        <Awards />
-        <Footer />
+        <About isDarkMode={isDarkMode} />
+        <Skills isDarkMode={isDarkMode} />
+        <Leadership isDarkMode={isDarkMode} />
+        <Awards isDarkMode={isDarkMode} />
+        <Footer isDarkMode={isDarkMode} />
       </div>
-      <DownloadButton />
+      <DownloadButton isDarkMode={isDarkMode} />
     </div>
   );
 };
