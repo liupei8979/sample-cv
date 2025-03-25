@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 글로벌 커스텀 설정 */
+:root {
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --background-dark: #111827;
+  --background-light: #ffffff;
+  --font-family: "Inter", "Outfit", system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+}
+
+/* 스크롤바 커스터마이징 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
+}
+
+html {
+  font-family: var(--font-family);
+  line-height: 1.5;
+  font-weight: 400;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Navbar 높이와 일치 */
+}
+
+/* 기본 바디 스타일 */
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  color: #1f2937;
+  overflow-x: hidden;
+}
+
+/* 메인 컨테이너 */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* 링크 스타일 */
+a {
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* 로고 스타일 및 애니메이션 */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em var(--primary-color));
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
+/* 카드 컴포넌트 */
+.card {
+  padding: 2em;
+  background-color: var(--background-light);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 문서 읽기용 텍스트 */
+.read-the-docs {
+  color: #888;
+}
+
+/* 버튼 스타일 */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--background-dark);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: var(--primary-color);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Light 모드 오버라이드 */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-dark: #ffffff;
+  }
+  body {
+    background-color: var(--background-dark);
+    color: #213547;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
