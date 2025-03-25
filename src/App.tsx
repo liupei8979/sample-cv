@@ -967,27 +967,19 @@ const DownloadButton: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Initialize theme
+  // Initialize theme - 항상 라이트 모드로 시작하도록 수정
   useEffect(() => {
-    // 로컬 스토리지에서 테마 설정 가져오기
-    const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    // 기존 테마 설정 무시하고 항상 라이트 모드로 시작
+    setIsDarkMode(false);
 
-    // 사용자가 저장한 테마가 있으면 그것을 사용하고, 없으면 기본 시스템 설정 사용
-    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
-    setIsDarkMode(initialTheme === "dark");
+    // HTML 요소에서 dark 클래스 제거
+    document.documentElement.classList.remove("dark");
 
-    // HTML 요소에 적용
-    if (initialTheme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    // 로컬 스토리지에 라이트 모드로 저장
+    localStorage.theme = "light";
   }, []);
 
-  // Toggle theme function
+  // Toggle theme function은 그대로 유지
   const toggleTheme = () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
