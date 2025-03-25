@@ -243,16 +243,15 @@ const About: React.FC = () => {
 
 // Skills 섹션 업데이트
 const Skills: React.FC = () => {
-  const skills = [
+  // 첫 번째 줄과 두 번째 줄로 스킬을 분리
+  const firstLineSkills = [
     "React",
     "Svelte",
     "Javascript",
     "Typescript",
     "Zustand",
-    "React-Query",
-    "Chart.js",
-    "D3.js",
   ];
+  const secondLineSkills = ["React-Query", "Chart.js", "D3.js"];
 
   return (
     <motion.section
@@ -267,28 +266,55 @@ const Skills: React.FC = () => {
       <h2 className="text-5xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
         Skills
       </h2>
-      <motion.div
-        className="flex flex-wrap justify-center gap-5 mb-16"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        {skills.map((skill, index) => (
-          <motion.div
-            key={skill}
-            className="bg-white px-8 py-4 rounded-xl shadow-lg text-xl font-medium text-gray-800 cursor-pointer hover:scale-105 transform transition border border-indigo-100"
-            variants={itemVariants}
-            transition={{ duration: 0.5, delay: index * 0.07 }}
-            whileHover={{
-              backgroundColor: "#EEF2FF",
-              boxShadow: "0 10px 25px -5px rgba(99, 102, 241, 0.2)",
-            }}
-          >
-            {skill}
-          </motion.div>
-        ))}
-      </motion.div>
+      <div className="max-w-4xl mx-auto mb-16">
+        {/* 첫 번째 줄 - 왼쪽 정렬 */}
+        <motion.div
+          className="flex flex-wrap justify-start gap-5 mb-8"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {firstLineSkills.map((skill, index) => (
+            <motion.div
+              key={skill}
+              className="bg-white px-8 py-4 rounded-xl shadow-lg text-xl font-medium text-gray-800 cursor-pointer hover:scale-105 transform transition border border-indigo-100"
+              variants={itemVariants}
+              transition={{ duration: 0.5, delay: index * 0.07 }}
+              whileHover={{
+                backgroundColor: "#EEF2FF",
+                boxShadow: "0 10px 25px -5px rgba(99, 102, 241, 0.2)",
+              }}
+            >
+              {skill}
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* 두 번째 줄 - 오른쪽 정렬 */}
+        <motion.div
+          className="flex flex-wrap justify-end gap-5"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {secondLineSkills.map((skill, index) => (
+            <motion.div
+              key={skill}
+              className="bg-white px-8 py-4 rounded-xl shadow-lg text-xl font-medium text-gray-800 cursor-pointer hover:scale-105 transform transition border border-indigo-100"
+              variants={itemVariants}
+              transition={{ duration: 0.5, delay: index * 0.07 + 0.35 }} // 약간의 추가 지연
+              whileHover={{
+                backgroundColor: "#EEF2FF",
+                boxShadow: "0 10px 25px -5px rgba(99, 102, 241, 0.2)",
+              }}
+            >
+              {skill}
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
       <SkillsChart />
     </motion.section>
   );
