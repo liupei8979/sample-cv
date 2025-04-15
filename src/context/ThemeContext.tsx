@@ -18,7 +18,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   // 초기 테마 설정
   useEffect(() => {
     // 기존 테마 설정 무시하고 항상 라이트 모드로 시작
-    setIsDarkMode(false);
+    setIsDarkMode(true);
 
     // HTML 요소에서 dark 클래스 제거
     document.documentElement.classList.remove("dark");
