@@ -59,7 +59,7 @@ const About: React.FC = () => {
           transition={{ delay: 0.2 }}
         >
           <p
-            className="text-xl leading-relaxed font-outfit"
+            className="text-xl leading-relaxed font-outfit text-justify"
             style={{ color: isDarkMode ? "#d1d5db" : "#4b5563" }}
           >
             I am committed to growing as a front-end developer who maximizes
