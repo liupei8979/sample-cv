@@ -22,7 +22,7 @@ const Leadership: React.FC = () => {
       variants={fadeInUp}
       transition={{ duration: 0.8 }}
     >
-      <h2 className="text-5xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+      <h2 className="text-5xl font-bold font-outfit mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
         Leadership & Experiences
       </h2>
       <motion.div

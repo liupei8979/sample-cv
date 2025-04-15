@@ -15,7 +15,7 @@ const Awards: React.FC = () => {
   return (
     <motion.section
       id="awards"
-      className="py-24 px-8 rounded-3xl shadow-2xl"
+      className="py-24 px-8 rounded-3xl shadow-2xl mb-24"
       style={{
         background: isDarkMode
           ? "linear-gradient(to bottom right, #111827, #312E81)"

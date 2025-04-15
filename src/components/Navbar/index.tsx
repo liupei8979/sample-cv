@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
             : "rgba(255, 255, 255, 0.9)",
         }}
       >
-        <div className="font-bold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+        <div className="font-bold text-3xl font-outfit bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
           KM
         </div>
         <div className="flex items-center space-x-8">
@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
               key={section}
               href={`#${section}`}
               style={{ color: isDarkMode ? "#d1d5db" : "#374151" }}
-              className="hover:text-indigo-600 transition font-medium relative group"
+              className="hover:text-indigo-600 transition font-medium font-outfit relative group"
             >
               {section.charAt(0).toUpperCase() + section.slice(1)}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>

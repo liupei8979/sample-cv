@@ -22,13 +22,13 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({
         }}
       >
         <p
-          className="text-xl font-semibold"
+          className="text-xl font-semibold font-outfit"
           style={{ color: isDarkMode ? "#818cf8" : "#4338ca" }}
         >
           {year}
         </p>
         <p
-          className="mt-2 text-2xl"
+          className="mt-2 text-2xl font-outfit"
           style={{ color: isDarkMode ? "#e5e7eb" : "#1f2937" }}
         >
           {description}

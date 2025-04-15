@@ -1,5 +1,5 @@
 import React from "react";
-import { fadeInUp } from "../../utils/animation";
+import { fadeInUp } from "../../utils/animations";
 import { motion } from "framer-motion";
 
 const Header: React.FC = () => {
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
         </motion.div>
 
         <motion.h1
-          className="text-7xl font-extrabold tracking-tight mb-2"
+          className="text-7xl font-extrabold tracking-tight mb-2 font-outfit"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -38,7 +38,7 @@ const Header: React.FC = () => {
           transition={{ duration: 1, delay: 0.5 }}
         ></motion.div>
         <motion.p
-          className="text-3xl font-medium"
+          className="text-3xl font-medium font-outfit"
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
           Web Frontend Developer
         </motion.p>
         <motion.p
-          className="mt-2 text-xl"
+          className="mt-2 text-xl font-outfit"
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
@@ -56,7 +56,7 @@ const Header: React.FC = () => {
           1999.02.13
         </motion.p>
         <motion.div
-          className="mt-8 space-y-2 text-xl"
+          className="mt-8 space-y-2 text-xl font-outfit"
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
@@ -69,7 +69,7 @@ const Header: React.FC = () => {
               href="https://github.com/liupei8979"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 transition rounded-full"
+              className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 transition rounded-full font-outfit"
             >
               GitHub
             </a>
@@ -77,7 +77,7 @@ const Header: React.FC = () => {
               href="https://www.linkedin.com/in/oxsla/"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 transition rounded-full"
+              className="px-4 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 transition rounded-full font-outfit"
             >
               LinkedIn
             </a>

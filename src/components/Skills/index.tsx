@@ -30,7 +30,7 @@ const Skills: React.FC = () => {
       variants={fadeInUp}
       transition={{ duration: 0.8 }}
     >
-      <h2 className="text-5xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+      <h2 className="text-5xl font-bold font-outfit mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
         Skills
       </h2>
       <div className="max-w-4xl mx-auto mb-16">
@@ -50,7 +50,7 @@ const Skills: React.FC = () => {
                 color: isDarkMode ? "#e5e7eb" : "#1f2937",
                 borderColor: isDarkMode ? "#4338ca" : "#e0e7ff",
               }}
-              className="px-8 py-4 rounded-xl shadow-lg text-xl font-medium cursor-pointer hover:scale-105 transform transition border"
+              className="px-8 py-4 rounded-xl shadow-lg text-xl font-medium font-outfit cursor-pointer hover:scale-105 transform transition border"
               variants={itemVariants}
               transition={{ duration: 0.5, delay: index * 0.07 }}
               whileHover={{
@@ -79,7 +79,7 @@ const Skills: React.FC = () => {
                 color: isDarkMode ? "#e5e7eb" : "#1f2937",
                 borderColor: isDarkMode ? "#4338ca" : "#e0e7ff",
               }}
-              className="px-8 py-4 rounded-xl shadow-lg text-xl font-medium cursor-pointer hover:scale-105 transform transition border"
+              className="px-8 py-4 rounded-xl shadow-lg text-xl font-medium font-outfit cursor-pointer hover:scale-105 transform transition border"
               variants={itemVariants}
               transition={{ duration: 0.5, delay: index * 0.07 + 0.35 }}
               whileHover={{

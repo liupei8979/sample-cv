@@ -44,7 +44,10 @@ const AppContent: React.FC = () => {
         transition: "background-color 0.3s, color 0.3s",
       }}
     >
-      <div className="min-h-screen scroll-smooth" id="cv-content">
+      <div
+        className="min-h-screen scroll-smooth overflow-hidden"
+        id="cv-content"
+      >
         <Navbar />
         <Header />
         <About />

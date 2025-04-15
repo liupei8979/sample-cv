@@ -1,7 +1,7 @@
+@import "./styles/fonts.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* Force dark mode styles with !important */
 html.dark {
   background-color: #111827 !important;
@@ -32,8 +32,7 @@ html.dark .text-gray-800 {
   --primary-hover: #4338ca;
   --background-dark: #111827;
   --background-light: #ffffff;
-  --font-family: "Inter", "Outfit", system-ui, Avenir, Helvetica, Arial,
-    sans-serif;
+  --font-family: "Outfit", system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 /* 스크롤바 커스터마이징 */

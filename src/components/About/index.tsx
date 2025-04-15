@@ -19,7 +19,7 @@ const About: React.FC = () => {
       variants={fadeInUp}
       transition={{ duration: 0.8 }}
     >
-      <h2 className="text-5xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+      <h2 className="text-5xl font-bold font-outfit mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
         About Me
       </h2>
       <div className="flex flex-col md:flex-row gap-12 items-center">
@@ -29,7 +29,7 @@ const About: React.FC = () => {
           transition={{ delay: 0.2 }}
         >
           <p
-            className="text-xl leading-relaxed"
+            className="text-xl leading-relaxed font-outfit"
             style={{ color: isDarkMode ? "#d1d5db" : "#4b5563" }}
           >
             I am committed to growing as a front-end developer who maximizes
@@ -52,7 +52,7 @@ const About: React.FC = () => {
           transition={{ delay: 0.4 }}
         >
           <h3
-            className="text-2xl font-semibold mb-4"
+            className="text-2xl font-semibold font-outfit mb-4"
             style={{ color: isDarkMode ? "#a5b4fc" : "#4338ca" }}
           >
             Languages
@@ -60,7 +60,7 @@ const About: React.FC = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span
-                className="font-medium"
+                className="font-medium font-outfit"
                 style={{ color: isDarkMode ? "#e5e7eb" : "#1f2937" }}
               >
                 Korean
