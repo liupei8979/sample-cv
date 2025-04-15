@@ -64,9 +64,38 @@ const Leadership: React.FC = () => {
       variants={fadeInUp}
       transition={{ duration: 0.8 }}
     >
-      <h2 className="text-5xl font-bold font-outfit mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600">
-        EXPERIENCE
-      </h2>
+      <motion.div
+        className="text-center mb-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.h2
+          className="text-5xl font-bold bg-clip-text text-transparent"
+          style={{
+            backgroundImage: isDarkMode
+              ? "linear-gradient(135deg, #93c5fd, #6366f1)"
+              : "linear-gradient(135deg, #3b82f6, #4f46e5)",
+          }}
+          initial={{ y: -30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          EXPERIENCE
+        </motion.h2>
+
+        <motion.div
+          className="h-1 w-24 mx-auto mt-6 rounded-full"
+          style={{
+            background: isDarkMode
+              ? "linear-gradient(90deg, #93c5fd, #6366f1)"
+              : "linear-gradient(90deg, #3b82f6, #4f46e5)",
+          }}
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "6rem", opacity: 1 }}
+          transition={{ duration: 1, delay: 0.4 }}
+        />
+      </motion.div>
 
       {/* 이미지에 있는 타임라인 스타일 */}
       <div className="relative max-w-4xl mx-auto">

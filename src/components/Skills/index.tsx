@@ -30,9 +30,39 @@ const Skills: React.FC = () => {
       variants={fadeInUp}
       transition={{ duration: 0.8 }}
     >
-      <h2 className="text-5xl font-bold font-outfit mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-        Skills
-      </h2>
+      <motion.div
+        className="text-center mb-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.h2
+          className="text-5xl font-bold bg-clip-text text-transparent"
+          style={{
+            backgroundImage: isDarkMode
+              ? "linear-gradient(135deg, #c084fc, #818cf8)"
+              : "linear-gradient(135deg, #6366f1, #a855f7)",
+          }}
+          initial={{ y: -30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          SKILLS
+        </motion.h2>
+
+        <motion.div
+          className="h-1 w-24 mx-auto mt-6 rounded-full"
+          style={{
+            background: isDarkMode
+              ? "linear-gradient(90deg, #c084fc, #818cf8)"
+              : "linear-gradient(90deg, #6366f1, #a855f7)",
+          }}
+          initial={{ width: 0, opacity: 0 }}
+          whileInView={{ width: "6rem", opacity: 1 }}
+          transition={{ duration: 1, delay: 0.4 }}
+        />
+      </motion.div>
+
       <div className="max-w-4xl mx-auto mb-16">
         {/* 첫 번째 줄 - 왼쪽 정렬 */}
         <motion.div
