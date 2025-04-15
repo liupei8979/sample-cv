@@ -331,19 +331,15 @@ const Leadership: React.FC = () => {
                   {/* 메인 아이템 */}
                   <div className="w-full mb-20 relative flex items-center">
                     {/* 중앙 원 - 축에 배치 */}
-                    <motion.div
+                    <div
                       className="absolute left-1/2 transform -translate-x-1/2 rounded-full z-10 flex items-center justify-center overflow-hidden"
                       style={{
                         width: `${circleSize}px`,
                         height: `${circleSize}px`,
                       }}
-                      whileHover={{
-                        scale: 1.05,
-                        transition: { duration: 0.3 },
-                      }}
                     >
                       {/* 반원 */}
-                      <div
+                      <motion.div
                         className="absolute w-full h-full"
                         style={{
                           background: categoryColor.color,
@@ -352,7 +348,11 @@ const Leadership: React.FC = () => {
                             ? "polygon(0 0, 50% 0, 50% 100%, 0 100%)"
                             : "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)",
                         }}
-                      ></div>
+                        whileHover={{
+                          opacity: 0.6,
+                          transition: { duration: 0.3 },
+                        }}
+                      ></motion.div>
 
                       {/* 이전 원과 연결 (위쪽) */}
                       {isNotFirst && (
@@ -397,7 +397,6 @@ const Leadership: React.FC = () => {
                             isDarkMode ? "#1e3a8a" : "white"
                           }`,
                         }}
-                        whileHover={{ scale: 1.2 }}
                         transition={{
                           type: "spring",
                           stiffness: 400,
@@ -420,7 +419,7 @@ const Leadership: React.FC = () => {
                           }}
                         ></motion.div>
                       </motion.div>
-                    </motion.div>
+                    </div>
 
                     {/* 카테고리 레이블 - 반원 위에 표시 */}
                     <motion.div
