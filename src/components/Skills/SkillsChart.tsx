@@ -205,11 +205,11 @@ const SkillsChart: React.FC<SkillsChartProps> = ({ isDarkMode }) => {
   const getSortText = () => {
     switch (sortOption) {
       case "asc":
-        return "낮은 % 순";
+        return "Lowest First";
       case "desc":
-        return "높은 % 순";
+        return "Highest First";
       default:
-        return "기본 순서";
+        return "Default Order";
     }
   };
 
@@ -238,7 +238,7 @@ const SkillsChart: React.FC<SkillsChartProps> = ({ isDarkMode }) => {
               ? "1px solid rgba(75, 85, 99, 0.5)"
               : "1px solid rgba(209, 213, 219, 0.5)",
             boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-            width: "130px",
+            width: "150px",
           }}
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         >
@@ -298,9 +298,9 @@ const SkillsChart: React.FC<SkillsChartProps> = ({ isDarkMode }) => {
                 }}
                 onClick={() => handleSortOptionSelect(option)}
               >
-                {option === "default" && "기본 순서"}
-                {option === "asc" && "낮은 % 순"}
-                {option === "desc" && "높은 % 순"}
+                {option === "default" && "Default Order"}
+                {option === "asc" && "Lowest First"}
+                {option === "desc" && "Highest First"}
               </div>
             ))}
           </motion.div>

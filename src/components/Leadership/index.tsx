@@ -101,13 +101,13 @@ const Leadership: React.FC = () => {
   const getSortText = () => {
     switch (sortOption) {
       case "byYearAsc":
-        return "과거 순";
+        return "Oldest First";
       case "byCapability":
-        return "역량 순";
+        return "By Skill";
       case "byCategory":
-        return "카테고리 순";
+        return "By Category";
       default:
-        return "최신 순";
+        return "Latest First";
     }
   };
 
@@ -226,10 +226,10 @@ const Leadership: React.FC = () => {
                 }}
               >
                 {[
-                  { id: "byYear", text: "최신 순" },
-                  { id: "byYearAsc", text: "과거 순" },
-                  { id: "byCapability", text: "역량 순" },
-                  { id: "byCategory", text: "카테고리 순" },
+                  { id: "byYear", text: "Latest First" },
+                  { id: "byYearAsc", text: "Oldest First" },
+                  { id: "byCapability", text: "By Skill" },
+                  { id: "byCategory", text: "By Category" },
                 ].map((option) => (
                   <motion.div
                     key={option.id}
