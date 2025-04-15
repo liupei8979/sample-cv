@@ -10,6 +10,15 @@ export const experiences = [
   },
   {
     year: "2024",
+    company: "SolsLabs",
+    position: "Back Office Developer",
+    tech: "Svelte, TypeScript, Next.js",
+    description: "'SolsLabs' Back Office Planning and Development",
+    capability: 90,
+    category: "PROGRAMMING",
+  },
+  {
+    year: "2024",
     company: "9oormthonUNIV",
     position: "Full Stack Developer",
     tech: "React, TypeScript, Nest.js",
